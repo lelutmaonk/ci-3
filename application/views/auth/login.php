@@ -8,6 +8,8 @@
                 <div class="col-md-9 col-lg-8 mx-auto">
                 <h3 class="login-heading mb-4">Login</h3>
 
+                <?php echo $this->session->flashdata('message')?>
+
                 <!-- Sign In Form -->
                 <form>
 

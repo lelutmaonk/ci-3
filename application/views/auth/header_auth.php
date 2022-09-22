@@ -9,6 +9,6 @@
 
     <link rel="stylesheet" href="<?php echo base_url('assets/css/custom-style.css')?>">
 
-    <title>Hello, world!</title>
+    <title><?php echo $title?></title>
   </head>
   <body>

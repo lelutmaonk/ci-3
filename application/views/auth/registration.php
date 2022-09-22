@@ -9,31 +9,33 @@
                 <h3 class="login-heading mb-4">Registration</h3>
 
                 <!-- Sign In Form -->
-                <form>
+                <form method="POST" action="<?php echo base_url('auth/registration')?>">
+
                     <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Email address</label>
+                    <input type="name" class="form-control" name="name" value="<?php echo set_value('name')?>">
+                    <label for="floatingInput">Fullname</label>
+                    <div class="mt-1 text-end"><small class="text-danger"><?php echo form_error('name')?></small></div>
                     </div>
 
                     <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Email address</label>
-                    </div>
-                    
-                    <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                    <label for="floatingPassword">Password</label>
+                    <input type="email" class="form-control" name="email" value="<?php echo set_value('email')?>">
+                    <label for="floatingInput">Email</label>
+                    <div class="mt-1 text-end"><small class="text-danger"><?php echo form_error('email')?></small></div>
                     </div>
 
-                    <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" value="" id="rememberPasswordCheck">
-                    <label class="form-check-label" for="rememberPasswordCheck">
-                        Remember password
-                    </label>
+                    <div class="form-floating mb-3">
+                    <input type="password" class="form-control" name="password1">
+                    <label for="floatingInput">Password</label>
+                    <div class="mt-1 text-end"><small class="text-danger"><?php echo form_error('password1')?></small></div>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                    <input type="password" class="form-control" name="password2">
+                    <label for="floatingInput">Confirm Password</label>
                     </div>
 
                     <div class="d-grid">
-                    <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">Sign Up</button>
+                    <button type="submit" class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">Sign Up</button>
                     <div class="text-center">
                     Allready have account?<a class="small" href="<?php echo base_url('auth')?>"> Login here !</a>
                     </div>
