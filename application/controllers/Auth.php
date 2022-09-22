@@ -10,13 +10,66 @@ class Auth extends CI_Controller {
     }
 
 	public function index()
-	{
-        $data['title'] = 'Login';
+	{   
+         // ** form validation set //
+         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
+         $this->form_validation->set_rules('password', 'Password', 'required|trim');
 
-        $this->load->view('auth/header_auth', $data);
-		$this->load->view('auth/login');
-        $this->load->view('auth/footer_auth');
+        if($this->form_validation->run() == FALSE){
+            $data['title'] = 'Login';
+            $this->load->view('auth/header_auth', $data);
+            $this->load->view('auth/login');
+            $this->load->view('auth/footer_auth');
+        }else{
+            // ** validation success //
+            $this->_login();
+        }
 	}
+
+    private function _login(){
+        $email      = $this->input->post('email');
+        $password   = $this->input->post('password');
+
+        $user       = $this->db->get_where('t_user', ['email' => $email])->row_array();
+
+        // ** if the the user exists //
+        if($user){
+             // ** if the user active //
+             if($user['is_active'] == 1){
+                if(password_verify($password, $user['password'])){
+                     // ** if the password true //
+                     $data = [
+                        'email'     => $user['email'],
+                        'role_id'   => $user['role_id']
+                     ];
+                     $this->session->set_userdata($data);
+                     redirect('user');
+                }else{
+                     // ** if the password false //
+                    $this->session->set_flashdata('message','<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Your password is wrong
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>');
+                    redirect('auth');
+                }
+                
+             }else{
+                 // ** if the user not active //
+                $this->session->set_flashdata('message','<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Your account has not been activated.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>');
+                redirect('auth');
+             }
+             
+        }else{
+            // ** if the user doesn't exist //
+            $this->session->set_flashdata('message','<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Your email is not registered.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>');
+        }
+    }
 
     public function registration()
 	{
@@ -36,10 +89,10 @@ class Auth extends CI_Controller {
             $this->load->view('auth/footer_auth');
         }else{
             $data = [
-                'name'          => htmlspecialchars($this->input->post('name')),
-                'email'         => htmlspecialchars($this->input->post('email')),
+                'name'          => htmlspecialchars($this->input->post('name', TRUE)),
+                'email'         => htmlspecialchars($this->input->post('email', TRUE)),
                 'image'         => 'default.jpg',
-                'password'      => password_hash($this->input->post('password'),PASSWORD_DEFAULT),
+                'password'      => password_hash($this->input->post('password1'),PASSWORD_DEFAULT),
                 'role_id'       => 2,
                 'is_active'     => 1,
                 'date_created'  => time()
@@ -52,5 +105,15 @@ class Auth extends CI_Controller {
             redirect('auth');
         }
 	}
+
+    public function logout(){
+        $this->session->unset_userdata('email');
+        $this->session->unset_userdata('role_id');
+        $this->session->set_flashdata('message','<div class="alert alert-success alert-dismissible fade show" role="alert">
+        You have been logout.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>');
+        redirect('auth');
+    }
 
 }

@@ -6,21 +6,23 @@
             <div class="container">
             <div class="row">
                 <div class="col-md-9 col-lg-8 mx-auto">
-                <h3 class="login-heading mb-4">Login</h3>
+                <h3 class="login-heading mb-2">Login</h3>
 
                 <?php echo $this->session->flashdata('message')?>
 
                 <!-- Sign In Form -->
-                <form>
+                <form method="POST" action="<?php echo base_url('auth')?>">
 
-                    <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Email address</label>
+                    <div   div class="form-floating mb-3 mt-2">
+                    <input type="email" class="form-control" name="email" value="<?php echo set_value('email')?>">
+                    <label for="floatingInput">Email</label>
+                    <div class="mt-1 text-end"><small class="text-danger"><?php echo form_error('email')?></small></div>
                     </div>
 
-                    <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                    <label for="floatingPassword">Password</label>
+                    <div   div class="form-floating mb-3">
+                    <input type="password" class="form-control" name="password">
+                    <label for="floatingInput">Password</label>
+                    <div class="mt-1 text-end"><small class="text-danger"><?php echo form_error('password')?></small></div>
                     </div>
 
                     <div class="d-grid">
