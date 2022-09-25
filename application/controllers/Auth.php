@@ -43,7 +43,11 @@ class Auth extends CI_Controller {
                         'role_id'   => $user['role_id']
                      ];
                      $this->session->set_userdata($data);
-                     redirect('user');
+                     if($user['role_id'] == 1){
+                        redirect('admin');
+                     }else{
+                        redirect('user');
+                     }
                 }else{
                      // ** if the password false //
                     $this->session->set_flashdata('message','<div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -68,6 +72,7 @@ class Auth extends CI_Controller {
             Your email is not registered.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>');
+            redirect('auth');
         }
     }
 
@@ -91,7 +96,7 @@ class Auth extends CI_Controller {
             $data = [
                 'name'          => htmlspecialchars($this->input->post('name', TRUE)),
                 'email'         => htmlspecialchars($this->input->post('email', TRUE)),
-                'image'         => 'default.jpg',
+                'image'         => 'default.png',
                 'password'      => password_hash($this->input->post('password1'),PASSWORD_DEFAULT),
                 'role_id'       => 2,
                 'is_active'     => 1,
