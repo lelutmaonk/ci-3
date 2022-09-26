@@ -53,7 +53,11 @@
 
                                 <!-- looping sub menu -->
                                 <?php foreach($subMenu as $sm) : ?>
-                                    <a class="nav-link" href="<?php echo base_url($sm['url'])?>">
+                                    <?php if($title == $sm['title']) : ?>
+                                        <a class="nav-link active" href="<?php echo base_url($sm['url'])?>">
+                                    <?php else : ?>
+                                        <a class="nav-link" href="<?php echo base_url($sm['url'])?>">
+                                    <?php endif;?>
                                         <div class="sb-nav-link-icon"><i class="<?php echo $sm['icon']?>"></i></div>
                                         <?php echo $sm['title']?>
                                     </a>
@@ -61,6 +65,9 @@
 
                             <?php endforeach; ?>
 
+                            <div class="sb-sidenav-menu-heading">
+                            Logout        
+                            </div>
                             <a class="nav-link" href="<?php echo base_url('auth/logout')?>">
                                 <div class="sb-nav-link-icon"><i class="fas fa-right-from-bracket"></i></div>
                                 Logout
